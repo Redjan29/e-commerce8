@@ -1,0 +1,116 @@
+:root {
+  --main-color: #5f1717;
+  --secondary-color: #ededed;
+  --font-color: #787878;
+  --border-radius: 40px;
+  --transition-time: 0.3s;
+}
+
+.shopcategory-banner {
+  display: block;
+  margin: 30px auto;
+  width: 80%;
+  border-radius: var(--border-radius);
+  transition: transform var(--transition-time);
+}
+
+.shopcategory-banner:hover {
+  transform: scale(1.02);
+}
+
+.shopcategory-indexSort {
+  display: flex;
+  margin: 0 170px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shopcategory-sort {
+  padding: 7px 10px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--main-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background var(--transition-time);
+  background-color: aqua;
+}
+
+.shopcategory-sort:hover {
+  background: var(--secondary-color);
+}
+
+.shopcategory-sort select {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
+}
+
+.shopcategory-indexSort p span {
+  font-weight: 600;
+}
+
+.shopcategory-products {
+  width: 90%;
+  max-width: 1360px;
+  justify-content: center;
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.shopcategory-loadmore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 100px auto;
+  width: 200px;
+  height: 60px;
+  border-radius: 75px;
+  background: var(--secondary-color);
+  color: var(--font-color);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition-time), transform var(--transition-time);
+}
+
+.shopcategory-loadmore:hover {
+  background: var(--font-color);
+  color: white;
+  transform: scale(1.05);
+}
+
+@media (max-width: 1280px) {
+  .shopcategory-banner {
+    margin: 20px auto;
+    width: 90%;
+  }
+  .shopcategory-indexSort {
+    width: 90%;
+    margin: auto;
+  }
+  .shopcategory-sort {
+    padding: 5px 20px;
+    font-size: 14px;
+  }
+  .shopcategory-indexSort p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 800px) {
+  .shopcategory-banner {
+    width: 95%;
+  }
+  .shopcategory-loadmore {
+    margin: 60px auto;
+    width: 150px;
+    height: 40px;
+    font-size: 13px;
+  }
+}

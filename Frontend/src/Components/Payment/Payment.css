@@ -1,0 +1,56 @@
+.payment-section {
+    width: 100%; /* Use the full width */
+    max-width: 400px; /* Reduce maximum width for a more compact form */
+    padding: 20px;
+    margin: 40px auto; /* Center the form on the page */
+    background: #f9f9f9; /* Light background for the section */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    border-radius: 8px; /* Rounded corners for modern look */
+  }
+  
+  .field-group {
+    margin-bottom: 15px; /* Less space between fields */
+  }
+  
+  .field-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .field-group input {
+    width: 100%; /* Full width of its container */
+    padding: 8px;
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 4px; /* Slight rounding on corners */
+  }
+  
+  .field-group input:focus {
+    border-color: #0056b3; /* Highlight focus with a color change */
+    outline: none; /* Remove default focus outline */
+  }
+  
+  .error {
+    display: block;
+    margin-top: 5px;
+    color: red;
+    font-size: 0.875em;
+  }
+  
+  button {
+    width: 100%; /* Full width button */
+    padding: 10px;
+    background-color: #4CAF50; /* Green, for go/pay */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px; /* Slightly larger font for button */
+    margin-top: 20px; /* Space above the button */
+  }
+  
+  button:hover {
+    background-color: #45a049; /* Slightly darker on hover */
+  }
+  

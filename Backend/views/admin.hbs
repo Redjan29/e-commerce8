@@ -1,0 +1,40 @@
+{{!<!DOCTYPE html>}}
+{{!<html>}}
+{{!<head>}}
+{{!  <title>Admin Dashboard - Manage Products</title>}}
+{{!/head>}}
+{{!<body>}}
+  <h1>Admin Dashboard</h1>
+  <h2>Manage Products</h2>
+  <form action="/admin/products/create" method="POST">
+    <input type="text" name="title" placeholder="Title" required />
+    <input type="text" name="description" placeholder="Description" required />
+    <input type="text" name="image" placeholder="Image URL" required />
+    <input type="number" name="price" placeholder="Price" required />
+    <button type="submit">Create Product</button>
+  </form>
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Image</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+    {{#each products}}
+      <tr>
+        <td>{{this.title}}</td>
+        <td>{{this.description}}</td>
+        <td><img src="{{this.image}}" alt="{{this.title}}" width="50"></td>
+        <td>{{this.price}}</td>
+        <td>
+          <a href="/admin/products/edit/{{this.id}}">Edit</a>
+          <form action="/admin/products/delete/{{this.id}}" method="POST" style="display:inline;">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+  </table>
+{{!</body>}}
+{{!/html>}}

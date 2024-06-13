@@ -1,0 +1,47 @@
+.address-section {
+    width: 90%; /* Adjusted width */
+    max-width: 600px; /* Reduced maximum width for better form presentation */
+    margin: 20px auto; /* Centering the form */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .field-group {
+    margin-bottom: 20px;
+  }
+  
+  .field-group input, .field-group select {
+    width: 100%; /* Full width */
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .inline-fields .field-group {
+    width: 49%; /* Make space for two fields in one line */
+    float: left;
+  }
+  
+  .inline-fields .field-group:last-child {
+    float: right;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.875em;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
