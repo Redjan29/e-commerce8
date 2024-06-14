@@ -14,10 +14,11 @@ import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
 import Address from "./Components/Address/Address";
 import Payment from "./Components/Payment/Payment";
+import AdminPage from './Admin/AdminPage';  // Mise à jour du chemin
 
 function Layout() {
   const location = useLocation(); 
-  const hideNavFooter = location.pathname === '/Dashboard' || location.pathname === '/Profile';
+  const hideNavFooter = location.pathname === '/admin' || location.pathname === '/Profile';
 
   return (
     <div>
@@ -36,6 +37,7 @@ function Layout() {
         <Route path="/LoginSignup" element={<LoginSignup />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
       {!hideNavFooter && <Footer />} 
     </div>
