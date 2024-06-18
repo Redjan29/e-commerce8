@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './AdminPage.css'; // Make sure to create this CSS file
+import './AdminPage.css'; // Assurez-vous de créer ce fichier CSS
 
 const AdminPage = () => {
   const [products, setProducts] = useState([]);
@@ -20,16 +20,21 @@ const AdminPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/admin/products');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      setProducts(data);
+        const response = await fetch('http://localhost:5001/api/admin/products');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setProducts(data);
     } catch (error) {
-      console.error('Error fetching products:', error);
+        if (error.name === 'FetchError' && error.type === 'invalid-json') {
+            console.error('Invalid JSON response:', error.message);
+        } else {
+            console.error('Error fetching products:', error);
+        }
     }
-  };
+};
+
 
   const handleDelete = async (id) => {
     try {
@@ -111,39 +116,39 @@ const AdminPage = () => {
       <div className="admin-section">
         <div className="admin-form">
           <h2>Add New Product</h2>
-          <label>Titre</label>
-          <input type="text" name="Titre" value={newProduct.Titre} onChange={handleInputChange} />
-          <label>Description</label>
-          <input type="text" name="Description" value={newProduct.Description} onChange={handleInputChange} />
-          <label>Image</label>
-          <input type="text" name="Image" value={newProduct.Image} onChange={handleInputChange} />
-          <label>Prix</label>
-          <input type="text" name="Prix" value={newProduct.Prix} onChange={handleInputChange} />
-          <label>Old Price</label>
-          <input type="text" name="old_price" value={newProduct.old_price} onChange={handleInputChange} />
-          <label>Category ID</label>
-          <input type="text" name="Id_CategorieProduit" value={newProduct.Id_CategorieProduit} onChange={handleInputChange} />
-          <label>New Collection</label>
-          <input type="checkbox" name="isNewCollection" checked={newProduct.isNewCollection} onChange={handleInputChange} />
+          <label htmlFor="new_Titre">Titre</label>
+          <input id="new_Titre" type="text" name="Titre" value={newProduct.Titre} onChange={handleInputChange} />
+          <label htmlFor="new_Description">Description</label>
+          <input id="new_Description" type="text" name="Description" value={newProduct.Description} onChange={handleInputChange} />
+          <label htmlFor="new_Image">Image</label>
+          <input id="new_Image" type="text" name="Image" value={newProduct.Image} onChange={handleInputChange} />
+          <label htmlFor="new_Prix">Prix</label>
+          <input id="new_Prix" type="text" name="Prix" value={newProduct.Prix} onChange={handleInputChange} />
+          <label htmlFor="new_old_price">Old Price</label>
+          <input id="new_old_price" type="text" name="old_price" value={newProduct.old_price} onChange={handleInputChange} />
+          <label htmlFor="new_Id_CategorieProduit">Category ID</label>
+          <input id="new_Id_CategorieProduit" type="text" name="Id_CategorieProduit" value={newProduct.Id_CategorieProduit} onChange={handleInputChange} />
+          <label htmlFor="new_isNewCollection">New Collection</label>
+          <input id="new_isNewCollection" type="checkbox" name="isNewCollection" checked={newProduct.isNewCollection} onChange={handleInputChange} />
           <button onClick={handleAddProduct}>Save</button>
         </div>
         {selectedProduct && (
           <div className="admin-update-form">
             <h2>Edit Product</h2>
-            <label>Titre</label>
-            <input type="text" name="Titre" value={selectedProduct.Titre} onChange={handleSelectedInputChange} />
-            <label>Description</label>
-            <input type="text" name="Description" value={selectedProduct.Description} onChange={handleSelectedInputChange} />
-            <label>Image</label>
-            <input type="text" name="Image" value={selectedProduct.Image} onChange={handleSelectedInputChange} />
-            <label>Prix</label>
-            <input type="text" name="Prix" value={selectedProduct.Prix} onChange={handleSelectedInputChange} />
-            <label>Old Price</label>
-            <input type="text" name="old_price" value={selectedProduct.old_price} onChange={handleSelectedInputChange} />
-            <label>Category ID</label>
-            <input type="text" name="Id_CategorieProduit" value={selectedProduct.Id_CategorieProduit} onChange={handleSelectedInputChange} />
-            <label>New Collection</label>
-            <input type="checkbox" name="isNewCollection" checked={selectedProduct.isNewCollection} onChange={handleSelectedInputChange} />
+            <label htmlFor="edit_Titre">Titre</label>
+            <input id="edit_Titre" type="text" name="Titre" value={selectedProduct.Titre} onChange={handleSelectedInputChange} />
+            <label htmlFor="edit_Description">Description</label>
+            <input id="edit_Description" type="text" name="Description" value={selectedProduct.Description} onChange={handleSelectedInputChange} />
+            <label htmlFor="edit_Image">Image</label>
+            <input id="edit_Image" type="text" name="Image" value={selectedProduct.Image} onChange={handleSelectedInputChange} />
+            <label htmlFor="edit_Prix">Prix</label>
+            <input id="edit_Prix" type="text" name="Prix" value={selectedProduct.Prix} onChange={handleSelectedInputChange} />
+            <label htmlFor="edit_old_price">Old Price</label>
+            <input id="edit_old_price" type="text" name="old_price" value={selectedProduct.old_price} onChange={handleSelectedInputChange} />
+            <label htmlFor="edit_Id_CategorieProduit">Category ID</label>
+            <input id="edit_Id_CategorieProduit" type="text" name="Id_CategorieProduit" value={selectedProduct.Id_CategorieProduit} onChange={handleSelectedInputChange} />
+            <label htmlFor="edit_isNewCollection">New Collection</label>
+            <input id="edit_isNewCollection" type="checkbox" name="isNewCollection" checked={selectedProduct.isNewCollection} onChange={handleSelectedInputChange} />
             <button onClick={handleUpdateProduct}>Update</button>
           </div>
         )}
@@ -151,7 +156,7 @@ const AdminPage = () => {
       <div className="admin-list">
         <h2>Existing Products</h2>
         <ul>
-          {products.map(product => (
+          {Array.isArray(products) && products.map(product => (
             <li key={product.Id_Produit}>
               <div><strong>Titre:</strong> {product.Titre}</div>
               <div><strong>Description:</strong> {product.Description}</div>

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import "./CSS/Profile.css";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -45,6 +46,7 @@ const Profile = () => {
           <p><strong>Nom:</strong> {user.nom}</p>
           <p><strong>Prénom:</strong> {user.prenom}</p>
           <p><strong>Email:</strong> {user.email}</p>
+          <Link to='/'><button>Home</button></Link>
         </div>
       )}
     </div>

@@ -1,29 +1,64 @@
 // frontend/src/Pages/__tests__/LoginSignup.test.js    test fonctionelle d'intégration
+// Tests fonctionelles 
+
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import fetchMock from 'jest-fetch-mock';
 import LoginSignup from '../LoginSignup';
 
-describe('LoginSignup Component', () => {
-  it('handles form submission correctly', async () => {
-    const utils = render(<LoginSignup />);
-    const nomInput = utils.getByPlaceholderText('Nom');
-    const prenomInput = utils.getByPlaceholderText('Prenom');
-    const emailInput = utils.getByPlaceholderText('Email');
-    const passwordInput = utils.getByPlaceholderText('Mot de passe');
-    const submitButton = utils.getByText('Continue');
+beforeAll(() => {
+  fetchMock.enableMocks();
+});
 
-    // Simulate user input
-    fireEvent.change(nomInput, { target: { value: 'John' } });
-    fireEvent.change(prenomInput, { target: { value: 'Doe' } });
-    fireEvent.change(emailInput, { target: { value: 'john.doe@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'password1234' } });
+beforeEach(() => {
+  fetchMock.resetMocks();
+  jest.spyOn(console, 'log').mockImplementation(() => {});
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
 
-    // Simulate form submission
-    fireEvent.click(submitButton);
+afterEach(() => {
+  console.log.mockRestore();
+  console.error.mockRestore();
+});
 
-    // We should see success message if everything is correct
-    await waitFor(() => {
-      expect(utils.getByText('Inscription avec succès')).toBeInTheDocument();
-    });
+test('renders the login/signup form', () => {
+  render(<LoginSignup />);
+  expect(screen.getByPlaceholderText('Nom')).toBeInTheDocument();
+  expect(screen.getByPlaceholderText('Prenom')).toBeInTheDocument();
+  expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
+  expect(screen.getByPlaceholderText('Mot de passe')).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /continue/i })).toBeInTheDocument();
+});
+
+test('logs success message on successful registration', async () => {
+  fetchMock.mockResponseOnce(JSON.stringify({ message: "Inscription avec succès" }), { status: 201 });
+  render(<LoginSignup />);
+  fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'john.doe@example.com' } });
+  fireEvent.change(screen.getByPlaceholderText('Mot de passe'), { target: { value: 'password123' } });
+  fireEvent.click(screen.getByRole('button', { name: /continue/i }));
+
+  await waitFor(() => {
+    expect(console.log).toHaveBeenCalledWith('Success:', { message: 'Inscription avec succès' });
+  });
+});
+
+test('logs error message on fetch failure', async () => {
+  fetchMock.mockReject(new Error('Failed to connect'));
+  render(<LoginSignup />);
+  fireEvent.click(screen.getByRole('button', { name: /continue/i }));
+
+  await waitFor(() => {
+    expect(console.error).toHaveBeenCalledWith('Error:', new Error('Failed to connect'));
+  });
+});
+
+test('displays error message on fetch failure', async () => {
+  fetchMock.mockImplementationOnce(() => Promise.reject(new Error('Failed to connect')));
+  render(<LoginSignup />);
+  fireEvent.click(screen.getByRole('button', { name: /continue/i }));
+
+  await waitFor(() => {
+    expect(screen.getByText(/error: Failed to connect/i)).toBeInTheDocument();
   });
 });
