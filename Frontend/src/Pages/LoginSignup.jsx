@@ -1,15 +1,26 @@
 //frontend/src/Pages/LoginSignup
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CSS/LoginSignup.css';
 
-
 const LoginSignup = () => {
-  const [Nom, setNom] = useState('');
-  const [Prenom, setPrenom] = useState('');
-  const [Email, setEmail] = useState('');
-  const [Mot_de_passe, setMotDePasse] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [Nom, setNom] = useState(''); // État pour le nom
+  const [Prenom, setPrenom] = useState(''); // État pour le prénom
+  const [Email, setEmail] = useState(''); // État pour l'email
+  const [Mot_de_passe, setMotDePasse] = useState(''); // État pour le mot de passe
+  const [error, setError] = useState(''); // État pour les messages d'erreur
+  const [success, setSuccess] = useState(''); // État pour les messages de succès
+  const [csrfToken, setCsrfToken] = useState(''); // État pour le token CSRF
+
+  useEffect(() => {
+    // Récupérer le token CSRF des cookies
+    const csrfCookie = document.cookie.split('; ').find(row => row.startsWith('XSRF-TOKEN='));
+    if (csrfCookie) {
+      const csrfToken = csrfCookie.split('=')[1];
+      setCsrfToken(csrfToken);
+    } else {
+      console.error('CSRF token not found');
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,7 +31,9 @@ const LoginSignup = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'CSRF-Token': csrfToken // Envoyer le token CSRF avec les autres données
       },
+      credentials: 'include',
       body: JSON.stringify({
         Nom,
         Prenom,
@@ -53,10 +66,10 @@ const LoginSignup = () => {
         {success && <p className="success-message">{success}</p>}
         <form onSubmit={handleSubmit}>
           <div className="loginsignup-fields">
-            <input type="text" placeholder='Nom' value={Nom} onChange={(e) => setNom(e.target.value)} />
-            <input type="text" placeholder='Prenom' value={Prenom} onChange={(e) => setPrenom(e.target.value)} />
+            <input type="text" placeholder='LastName' value={Nom} onChange={(e) => setNom(e.target.value)} />
+            <input type="text" placeholder='FirstName' value={Prenom} onChange={(e) => setPrenom(e.target.value)} />
             <input type="email" placeholder='Email' value={Email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" placeholder='Mot de passe' value={Mot_de_passe} onChange={(e) => setMotDePasse(e.target.value)} />
+            <input type="password" placeholder='Password' value={Mot_de_passe} onChange={(e) => setMotDePasse(e.target.value)} />
           </div>
           <button type="submit">Continue</button>
         </form>

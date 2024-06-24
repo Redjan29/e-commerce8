@@ -1,7 +1,7 @@
 // backend/routes/protectedRoute.js
-
 const express = require('express');
 const router = express.Router();
+
 const { verifyUser } = require('../controllers/authController');
 
 // Exemple de route protégée
@@ -14,7 +14,6 @@ router.get('/logout', (req, res) => {
   res.clearCookie('token'); // Suppression du cookie
   res.json({ message: 'Logout successful' });
 });
-
 
 // Route protégée pour récupérer les informations de l'utilisateur
 router.get('/profile', verifyUser, (req, res) => {

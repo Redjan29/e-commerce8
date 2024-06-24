@@ -1,31 +1,43 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './CSS/ShopCategory.css';
 import { ShopContext } from '../Context/ShopContext';
-import dropdown_icon from '../Components/Assets/dropdown_icon.png';
 import Item from '../Components/Item/Item';
 
 const ShopCategory = (props) => {
-  const { all_product } = useContext(ShopContext);
-  const [sortOrder, setSortOrder] = useState('default'); // Ajoutez un état pour le tri
+  const { all_product } = useContext(ShopContext); // Accéder aux produits depuis le contexte
+  const [sortOrder, setSortOrder] = useState('default'); // État pour l'ordre de tri
+  const [filteredProducts, setFilteredProducts] = useState([]); // État pour les produits filtrés par catégorie
 
-  // Fonction de tri
+  useEffect(() => {
+    // Filtrer les produits par catégorie lorsque les produits ou la catégorie changent
+    const categoryIdMap = {
+      women: 1,
+      men: 2,
+      kid: 3,
+    };
+    const filtered = all_product.filter(item => item.Id_CategorieProduit === categoryIdMap[props.category]);
+    console.log('Filtered products for category', props.category, ':', filtered); // Debug: log the filtered products
+    setFilteredProducts(filtered);
+  }, [all_product, props.category]);
+
+  // Fonction pour trier les produits
   const sortProducts = (products, order) => {
     if (order === 'asc') {
-      return products.sort((a, b) => a.Prix - b.Prix);
+      return products.sort((a, b) => a.Prix - b.Prix); // Trier par prix croissant
     } else if (order === 'desc') {
-      return products.sort((a, b) => b.Prix - a.Prix);
+      return products.sort((a, b) => b.Prix - a.Prix); // Trier par prix décroissant
     }
-    return products; // Si 'default', ne faites rien
+    return products; // Ne pas trier si 'default'
   };
 
-  const sortedProducts = sortProducts([...all_product], sortOrder);
+  const sortedProducts = sortProducts([...filteredProducts], sortOrder); // Trier les produits filtrés
 
   return (
     <div className='shop-category'>
       <img className='shopcategory-banner' src={props.banner} alt="" />
       <div className="shopcategory-indexSort">
         <p>
-          <span>Showing 1-12</span> out of {all_product.length} products
+          <span>Showing 1-12</span> out of {filteredProducts.length} products
         </p>
         <div className="shopcategory-sort">
           Sort by
@@ -41,22 +53,16 @@ const ShopCategory = (props) => {
         </div>
       </div>
       <div className="shopcategory-products">
-        {sortedProducts.map((item, i) => {
-          if (props.category === item.Id_CategorieProduit) {
-            return (
-              <Item
-                key={i}
-                id={item.Id_Produit}
-                name={item.Titre}
-                image={item.Image}
-                new_price={item.Prix}
-                old_price={item.old_price || item.Prix} // Utilisez item.Prix s'il n'y a pas de old_price
-              />
-            );
-          } else {
-            return null;
-          }
-        })}
+        {sortedProducts.map((item, i) => (
+          <Item
+            key={i}
+            id={item.Id_Produit}
+            name={item.Titre}
+            image={item.Image}
+            new_price={item.Prix}
+            old_price={item.old_price || item.Prix} // Utilisez item.Prix s'il n'y a pas de old_price
+          />
+        ))}
       </div>
       <div className="shopcategory-loadmore">
         Explore More

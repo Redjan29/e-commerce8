@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
     {
   host: process.env.DATABASE_HOST,
   dialect: 'mysql',
-  logging: console.log, // Afficher les requêtes SQL exécutées
+  logging: console.log, 
 });
 
 module.exports = sequelize;

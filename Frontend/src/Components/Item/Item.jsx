@@ -7,7 +7,7 @@ const Item = (props) => {
     <div className="item">
       <Link to={`/product/${props.id}`}>
         <img
-          onClick={() => window.scrollTo(0, 0)}
+          onClick={() => window.scrollTo(0, 0)} // Remonter en haut de la page lors du clic sur l'image
           src={`http://localhost:5001/images/${props.image}`}
           alt={props.name}
         />

@@ -12,7 +12,10 @@
 /build
 
 # misc
-.env
+../backend/.env
+
+#sql
+../e-commerce.sql
 
 npm-debug.log*
 yarn-debug.log*

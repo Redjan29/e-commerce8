@@ -17,38 +17,40 @@ const ShopContextProvider = (props) => {
   const [promoDiscount, setPromoDiscount] = useState(0);
 
   useEffect(() => {
+    // Fetch products from the API when the component mounts
     fetch('http://localhost:5001/api/products')
       .then(response => response.json())
       .then(data => {
-        setAllProduct(data);
-        setCartItems(getDefaultCart(data));
+        setAllProduct(data); // Set all products state
+        setCartItems(getDefaultCart(data)); // Initialize cart with default values
       })
       .catch(error => console.error('Error fetching products:', error));
   }, []);
 
   const addToCart = (itemId) => {
+    // Add item to cart
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
   };
 
   const removeFromCart = (itemId) => {
+    // Remove item from cart
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
   };
 
   const applyPromoCode = (code) => {
-    // Ici, vous pouvez ajouter la logique pour appliquer le code promo
-    // Par exemple, vérifier si le code est valide et définir la réduction correspondante
-    // Pour l'exemple, je vais utiliser un code promo fictif "SUMMER2024" avec une réduction de 10%
+    // Apply promo code logic
     if (code === "SUMMER2024") {
       setPromoCode(code);
-      setPromoDiscount(0.1); // 10% de réduction
+      setPromoDiscount(0.1); // 10% discount
     } else {
-      // Code promo invalide
+      // Invalid promo code
       setPromoCode("");
       setPromoDiscount(0);
     }
   };
 
   const getTotalCartAmount = () => {
+    // Calculate total amount of items in the cart
     let totalAmount = 0;
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
@@ -56,12 +58,12 @@ const ShopContextProvider = (props) => {
         totalAmount += cartItems[item] * itemInfo.Prix;
       }
     }
-    // Appliquer la réduction du code promo
-    totalAmount *= (1 - promoDiscount);
+    totalAmount *= (1 - promoDiscount); // Apply promo discount
     return totalAmount;
   };
 
   const getTotalCartItems = () => {
+    // Calculate total number of items in the cart
     let totalItem = 0;
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
